@@ -4,6 +4,8 @@
 package FFSSM;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Licence {
 
@@ -13,13 +15,15 @@ public class Licence {
 
     public LocalDate delivrance;
 
-    public Club club;
+    public Club emetteur;
+
+    public List<Plongee> plongees = new ArrayList<>();
 
     public Licence(Personne possesseur, String numero, LocalDate delivrance, Club club) {
         this.possesseur = possesseur;
         this.numero = numero;
         this.delivrance = delivrance;
-        this.club = club;
+        this.emetteur = club;
     }
 
     public Personne getPossesseur() {
@@ -34,8 +38,8 @@ public class Licence {
         return delivrance;
     }
 
-    public Club getClub() {
-        return club;
+    public Club getEmetteur() {
+        return emetteur;
     }
 
     /**
@@ -45,8 +49,11 @@ public class Licence {
      * @return vrai si valide à la date d
      **/
     public boolean estValide(LocalDate d) {
-         // TODO: Implémenter cette méthode
-        throw new UnsupportedOperationException("Pas encore implémenté");
+         return d.isBefore(getDelivrance().plusYears(1)) && d.isAfter(getDelivrance());
+    }
+
+    public void ajouterPlongees(Plongee plongee){
+        plongees.add(plongee);
     }
 
 }

@@ -4,7 +4,9 @@
 package FFSSM;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 public class Plongee {
@@ -19,6 +21,10 @@ public class Plongee {
 
 	public int duree;
 
+	public Club organisateur;
+
+	public List<Licence> palanquee = new ArrayList<>();
+
 	public Plongee(Site lieu, Moniteur chefDePalanquee, LocalDate date, int profondeur, int duree) {
 		this.lieu = lieu;
 		this.chefDePalanquee = chefDePalanquee;
@@ -28,8 +34,8 @@ public class Plongee {
 	}
 
 	public void ajouteParticipant(Plongeur participant) {
-		// TODO: Implémenter cette méthode
-		throw new UnsupportedOperationException("Pas encore implémenté");
+		palanquee.add(participant.derniereLicence());
+		participant.derniereLicence().ajouterPlongees(this);
 	}
 
 	public LocalDate getDate() {
@@ -43,8 +49,19 @@ public class Plongee {
 	 * @return vrai si la plongée est conforme
 	 */
 	public boolean estConforme() {
-		// TODO: Implémenter cette méthode
-		throw new UnsupportedOperationException("Pas encore implémenté");
+		for(Licence licence : palanquee){
+			if(!licence.estValide(getDate())){
+				return false;
+			}
+		}
+		return true;
 	}
 
+	public Club getOrganisateur() {
+		return organisateur;
+	}
+
+	public void setOrganisateur(Club organisateur) {
+		this.organisateur = organisateur;
+	}
 }

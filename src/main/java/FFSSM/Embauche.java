@@ -2,7 +2,7 @@ package FFSSM;
 
 import java.time.LocalDate;
 
-public class Embauche {
+public class Embauche implements Comparable {
 
     private LocalDate debut;
 
@@ -16,6 +16,8 @@ public class Embauche {
         this.debut = debut;
         this.employe = employe;
         this.employeur = employeur;
+        employeur.ajoutEmploye(this);
+        employe.ajoutEmployeur(this);
     }
 
     /**
@@ -23,8 +25,7 @@ public class Embauche {
      * @param dateFin la date à laquelle cette embauche est terminée
      */
     public void terminer(LocalDate dateFin) {
-         // TODO: Implémenter cette méthode
-        throw new UnsupportedOperationException("Pas encore implémenté");	    
+        this.fin = dateFin;
     }
     
     /**
@@ -79,5 +80,11 @@ public class Embauche {
         return debut;
     }
 
-    
+    @Override
+    public int compareTo(Object o) {
+        Embauche embauche = (Embauche) o;
+        return this.getDebut().isAfter(embauche.debut) ? 1 : -1;
+    }
 }
+
+
